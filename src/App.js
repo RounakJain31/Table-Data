@@ -15,6 +15,7 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
+
     const trimmedName = form.name.trim();
     const trimmedPlace = form.place.trim();
     const ageVal = form.age.trim();
@@ -24,7 +25,6 @@ export default function App() {
       return;
     }
 
-    // Basic age validation
     if (!/^[0-9]+$/.test(ageVal)) {
       setError("Age must be a number");
       return;
@@ -32,6 +32,11 @@ export default function App() {
 
     setRows((r) => [...r, { name: trimmedName, age: ageVal, place: trimmedPlace }]);
     setForm({ name: "", age: "", place: "" });
+  };
+
+  const handleClear = () => {
+    setForm({ name: "", age: "", place: "" });
+    setError("");
   };
 
   return (
@@ -78,6 +83,9 @@ export default function App() {
 
         <div className="actions">
           <button type="submit" className="add-btn">Add</button>
+          <button type="button" className="clear-btn" onClick={handleClear}>
+            Clear
+          </button>
         </div>
 
         {error && <div className="error">{error}</div>}
@@ -92,10 +100,11 @@ export default function App() {
               <th>Place</th>
             </tr>
           </thead>
+
           <tbody>
             {rows.length === 0 ? (
               <tr className="empty-row">
-                <td colSpan={3}>No data yet</td>
+                <td colSpan={4}>No entries yet. Add your first row!</td>
               </tr>
             ) : (
               rows.map((r, idx) => (
@@ -104,8 +113,11 @@ export default function App() {
                   <td>{r.age}</td>
                   <td>{r.place}</td>
                   <td>
-                    <button className="remove-btn" onClick={() => setRows(rows.filter((_, i) => i !== idx))}>
-                    Remove
+                    <button
+                      className="remove-btn"
+                      onClick={() => setRows(rows.filter((_, i) => i !== idx))}
+                    >
+                      Remove
                     </button>
                   </td>
                 </tr>
@@ -114,7 +126,6 @@ export default function App() {
           </tbody>
         </table>
       </div>
-          <small className="notes">No entries yet. Add your first row!</small>
     </div>
   );
 }
