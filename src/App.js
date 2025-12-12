@@ -114,7 +114,7 @@ export default function App() {
           </tbody>
         </table>
       </div>
-
+          <small className="notes">No entries yet. Add your first row!</small>
     </div>
   );
 }
